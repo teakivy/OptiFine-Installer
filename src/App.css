@@ -1,6 +1,6 @@
 .App {
 	text-align: center;
-	background-color: #282c34;
+	background-color: #1f1b29;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -53,6 +53,10 @@
 h2 {
 	position: absolute;
 	top: 5px;
+	-webkit-user-select: none; /* Chrome all / Safari all */
+	-moz-user-select: none; /* Firefox all */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none; /* Likely future */
 }
 
 .footer {
@@ -66,11 +70,11 @@ h2 {
 	user-select: none; /* Likely future */
 }
 
-a {
-	color: rgb(73, 76, 87);
-	text-decoration: none;
-}
-
 .footer-link {
 	cursor: pointer;
+	transition: 0.2s;
+}
+
+.footer-link:hover {
+	color: #7960b4;
 }

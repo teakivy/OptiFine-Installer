@@ -5,24 +5,18 @@ import { Version } from "optifine-utils";
 import React, { Component } from "react";
 import Select from "@mui/material/Select";
 import {
-	Alert,
-	AlertTitle,
 	Button,
-	CircularProgress,
 	Dialog,
-	DialogActions,
 	DialogContent,
 	DialogContentText,
-	DialogTitle,
 	FormControl,
 	InputLabel,
-	ListSubheader,
 	MenuItem,
 	Slide,
 } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
 import LoadingOverlay from "react-loading-overlay";
-import { webContents } from "electron";
 import { TransitionProps } from "@mui/material/transitions";
 
 const Transition = React.forwardRef(function Transition(
@@ -46,6 +40,8 @@ export class App extends Component<
 		installing: boolean;
 		showSuccessMessage: boolean;
 		showFailureMessage: boolean;
+		shiftHeld: boolean;
+		tipOpen: boolean;
 	}
 > {
 	constructor(props: {}) {
@@ -60,6 +56,8 @@ export class App extends Component<
 			installing: false,
 			showSuccessMessage: false,
 			showFailureMessage: false,
+			shiftHeld: false,
+			tipOpen: true,
 		};
 	}
 
@@ -103,6 +101,23 @@ export class App extends Component<
 		window.Main.on("install-success", () => {
 			this.setState({ showSuccessMessage: true });
 		});
+
+		window.addEventListener("keydown", (e) => {
+			if (e.key === "Shift") {
+				this.setState({ shiftHeld: true });
+			}
+		});
+
+		window.addEventListener("keyup", (e) => {
+			if (e.key === "Shift") {
+				this.setState({ shiftHeld: false });
+			}
+		});
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("keydown", () => {});
+		window.removeEventListener("keyup", () => {});
 	}
 
 	render() {
@@ -143,6 +158,9 @@ export class App extends Component<
 									"&:focus": {
 										color: "#ffffff",
 									},
+								}}
+								style={{
+									color: "#a38bdb",
 								}}
 							>
 								Minecraft Version
@@ -189,24 +207,6 @@ export class App extends Component<
 								}}
 								label="Minecraft Version"
 							>
-								{/* {Object.keys(this.state.minecraftVersions).map(
-									(majorVersion) => (
-										<span>
-											<ListSubheader key={majorVersion}>
-												{console.log(majorVersion)}
-												{majorVersion}
-											</ListSubheader>
-
-											{this.state.minecraftVersions[
-												majorVersion
-											].map((version: any) => (
-												<MenuItem value={version}>
-													{version}
-												</MenuItem>
-											))}
-										</span>
-									)
-								)} */}
 								{this.state.mcVersions.map((version) => (
 									<MenuItem value={version}>
 										{version}
@@ -215,14 +215,19 @@ export class App extends Component<
 							</Select>
 						</FormControl>
 
-						<FormControl sx={{ m: 1, minWidth: 380 }}>
+						<FormControl
+							sx={{
+								m: 1,
+								minWidth: 380,
+							}}
+						>
 							<InputLabel
 								htmlFor="native-select"
 								sx={{
 									color: "#ffffff",
-									"&:focus": {
-										color: "#ffffff",
-									},
+								}}
+								style={{
+									color: "#a38bdb",
 								}}
 							>
 								Optifine Version
@@ -257,7 +262,7 @@ export class App extends Component<
 										fill: "white !important",
 									},
 								}}
-								label="Minecraft Version"
+								label="Optifine Version"
 							>
 								{this.state.matchedVersions.map((version) => (
 									<MenuItem value={version.fileName}>
@@ -271,7 +276,13 @@ export class App extends Component<
 					<div className="button-container">
 						<Button
 							variant="contained"
-							endIcon={<FileDownloadIcon />}
+							endIcon={
+								this.state.shiftHeld ? (
+									<BrowserUpdatedIcon />
+								) : (
+									<FileDownloadIcon />
+								)
+							}
 							onClick={async () => {
 								const version = this.state.versions.find(
 									(v) =>
@@ -279,21 +290,21 @@ export class App extends Component<
 										this.state.selectedVersion
 								);
 								if (version) {
-									console.log(
-										"install from renderer",
-										version
-									);
-									window.Main.install(version);
+									if (this.state.shiftHeld) {
+										window.Main.runInstaller(version);
+									} else {
+										window.Main.install(version);
+									}
 								}
 							}}
 							color="success"
 						>
-							Install
+							{this.state.shiftHeld ? "Run Installer" : "Install"}
 						</Button>
 					</div>
 
 					<div className="footer">
-						Not affiliated with Optifine or Mojang • Created by{" "}
+						Not affiliated with Optifine or Mojang AB • Created by{" "}
 						<span
 							onClick={() => {
 								console.log("clicked");

@@ -1,10 +1,9 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import { Version, installVersion } from "optifine-utils";
+import { Version, installVersion, runInstaller } from "optifine-utils";
 
 let mainWindow: BrowserWindow | null;
 
 if (require("electron-squirrel-startup")) app.quit();
-
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
@@ -19,7 +18,7 @@ function createWindow() {
 		width: 650,
 		height: 300,
 		resizable: false,
-		backgroundColor: "#282c34",
+		backgroundColor: "#1f1b29",
 		title: "OptiFine Installer",
 		autoHideMenuBar: true,
 		webPreferences: {
@@ -63,6 +62,25 @@ async function registerListeners() {
 			});
 	});
 
+	ipcMain.on("run-installer", async (_, version: string) => {
+		console.log("run-installer - main");
+		mainWindow?.webContents.send("installing", true);
+
+		let v = JSON.parse(version) as Version;
+		await runInstaller(v)
+			.then((success: boolean) => {
+				mainWindow?.webContents.send("installing", false);
+				if (success) {
+					mainWindow?.webContents.send("install-success");
+				} else {
+					mainWindow?.webContents.send("install-failed");
+				}
+			})
+			.catch((err) => {
+				mainWindow?.webContents.send("installing", false);
+			});
+	});
+
 	ipcMain.on("open-url", (_, url: string) => {
 		require("electron").shell.openExternal(url);
 	});
@@ -71,7 +89,10 @@ async function registerListeners() {
 app.on("ready", () => {
 	createWindow();
 
-	require("update-electron-app")();
+	// require("update-electron-app")({
+	// 	repo: "teakivy/OptiFine-Installer",
+	// 	updateInterval: "10 minutes",
+	// });
 })
 	.whenReady()
 	.then(registerListeners)

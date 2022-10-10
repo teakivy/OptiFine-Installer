@@ -1,7 +1,7 @@
 {
 	"name": "optifine-installer",
 	"author": "TeakIvy",
-	"version": "0.1.0",
+	"version": "1.0.2",
 	"description": "Install Optifine",
 	"main": "./.webpack/main",
 	"repository": "https://github.com/teakivy/OptiFine-Installer",
@@ -106,9 +106,9 @@
 				{
 					"name": "@electron-forge/maker-squirrel",
 					"config": {
-						"name": "optifine-installer"
-					},
-					"setupIcon": "./assets/icon.ico"
+						"name": "OptifineInstaller",
+						"setupIcon": "assets/icon.ico"
+					}
 				},
 				{
 					"name": "@electron-forge/maker-zip",

@@ -26,12 +26,12 @@ export const api = {
 	},
 
 	install: (version: Version) => {
-		console.log("install from bridge", version);
 		ipcRenderer.send("install", JSON.stringify(version));
 	},
 
-	runInstaller: async (version: Version): Promise<boolean> => {
-		return await version.runInstaller();
+	runInstaller: (version: Version) => {
+		console.log("runInstaller");
+		ipcRenderer.send("run-installer", JSON.stringify(version));
 	},
 
 	openURL: (url: string) => {

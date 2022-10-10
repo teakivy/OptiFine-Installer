@@ -1,69 +1,46 @@
+![image](https://user-images.githubusercontent.com/53413687/194944994-ae8d6025-2b83-4dae-9a9f-ecf2ae7232a2.png)
 
-![ElectronJS + Typescript + ReactJS](https://user-images.githubusercontent.com/46914545/159979537-7116a826-212c-45f4-a393-4abeabeabd07.jpg)
+# Optifine Installer
 
-## Electron + TypeScript + React
-
-This boilerplate is using [diego3g/electron-typescript-react](https://github.com/diego3g/electron-typescript-react) as base.
-If you want something with styled-components, linting and tests with jest, just go there. 
-
-### Differences between this boilerplate and the diego3g's version
-* css support added
-* svg support added
-* jest removed
-* eslint removed
-* styled-components removed
-
-The idea of this boilerplate is to be as simple as it can using this three technologies. My thought is to give the developer maximum freedom to choose their own way to write code.
+This is a simple project I made to install Optifine without having to go through the hassle of going to [optifine.net](https://optifine.net), finding a version, downloading the jar, running it, and installing.
 
 ## Installation
-Download this boilerplate using 
-```bash
-git clone https://github.com/caiulucas/basic-electron-react-typescript
-```
-or click on the `Use this template` option.
 
-Add `node_modules` in your project
+> _⚠️ Please note, as of now, Optifine Installer is not signed by Microsoft. This means the first time you run the Setup exe, Windows will prompt you saying it may not be safe. Optifine Installer is **not malicious**, all source code for the project is avaliable in this repository, you are more than welcome to compile it yourself_.
+>
+> _For anyone who just wants to run an exe from [Releases](https://github.com/teakivy/OptiFine-Installer/releases), click `More Info`, then `Run Anyways`._
 
-Using npm: 
-```bash
-npm install
-```
+Download the latest release from the [Releases](https://github.com/teakivy/OptiFine-Installer/releases) page, then run the Setup Installer.
 
-Using yarn:
-```bash
-yarn
-```
+## How to Use
 
-## Usage
+> ⚠️ Make sure you have Java Installed on your machine, this only has to be done once.
 
-Just run `start` script.
-
-Using npm:
-```bash
-npm run start
-```
-Using yarn:
-```bash
-yarn start
-```
+-   Run `Optifine Installer.exe`
+-   Select your desired Minecraft Version
+-   Select which Optifine Jar you want to install
+-   Click Install
+    -   Optionally, you can hold Shift and click Run Installer to choose where to Install Optifine to by running the default Optifine Installer
 
 ## Packaging
 
 To generate the project package based on the OS you're running on, just run:
 
 Using npm:
+
 ```bash
 npm run package
 ```
 
 Using yarn:
+
 ```bash
 yarn package
 ```
-## Contributing
-Any pull request or issue is welcome. If you have any idea for this boilerplate, feel free to share it.
 
-If you want to make your own boilerplate using this project as base, just go for it 😃
+## Contributing
+
+Any pull request or issue is welcome. If you have any idea for this project, feel free to share it.
 
 ## License
 
