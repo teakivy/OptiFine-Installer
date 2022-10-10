@@ -1,9 +1,10 @@
 {
 	"name": "optifine-installer",
 	"author": "TeakIvy",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "Install Optifine",
 	"main": "./.webpack/main",
+	"repository": "https://github.com/teakivy/OptiFine-Installer",
 	"scripts": {
 		"start": "electron-forge start",
 		"package": "electron-forge package",
@@ -13,19 +14,22 @@
 	"keywords": [],
 	"license": "MIT",
 	"dependencies": {
+		"@electron-forge/publisher-github": "^6.0.0-beta.67",
 		"@emotion/react": "^11.10.4",
 		"@emotion/styled": "^11.10.4",
 		"@fontsource/roboto": "^4.5.8",
 		"@mui/icons-material": "^5.10.6",
 		"@mui/material": "^5.10.8",
 		"@types/react-loading-overlay": "^1.0.1",
+		"dotenv": "^16.0.3",
 		"electron-squirrel-startup": "^1.0.0",
 		"framer-motion": "^6",
 		"optifine-utils": "^1.5.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hot-loader": "^4.13.0",
-		"react-loading-overlay": "^1.0.1"
+		"react-loading-overlay": "^1.0.1",
+		"update-electron-app": "^2.0.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.17.8",
@@ -47,6 +51,7 @@
 		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.1",
 		"electron": "^17.2.0",
+		"electron-prebuilt-compile": "8.2.0",
 		"file-loader": "^6.2.0",
 		"npm-run-all": "^4.1.5",
 		"style-loader": "^3.3.1",
@@ -64,6 +69,17 @@
 					"assets"
 				]
 			},
+			"publishers": [
+				{
+					"name": "@electron-forge/publisher-github",
+					"config": {
+						"repository": {
+							"owner": "teakivy",
+							"name": "OptiFine-Installer"
+						}
+					}
+				}
+			],
 			"plugins": [
 				[
 					"@electron-forge/plugin-webpack",
@@ -92,7 +108,7 @@
 					"config": {
 						"name": "optifine-installer"
 					},
-					"setupIcon": "assets/icon.ico"
+					"setupIcon": "./assets/icon.ico"
 				},
 				{
 					"name": "@electron-forge/maker-zip",

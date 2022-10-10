@@ -68,7 +68,11 @@ async function registerListeners() {
 	});
 }
 
-app.on("ready", createWindow)
+app.on("ready", () => {
+	createWindow();
+
+	require("update-electron-app")();
+})
 	.whenReady()
 	.then(registerListeners)
 	.catch((e) => console.error(e));
