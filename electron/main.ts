@@ -19,6 +19,7 @@ function createWindow() {
         resizable: false,
         backgroundColor: '#282c34',
         title: 'OptiFine Installer',
+        autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
